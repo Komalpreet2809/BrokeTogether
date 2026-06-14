@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "../api";
 import { useAuth } from "../auth";
 import Balances from "../components/Balances";
@@ -15,6 +15,16 @@ export default function Dashboard() {
   const [groupId, setGroupId] = useState(null);
   const [tab, setTab] = useState("Balances");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function onDocClick(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+    }
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
 
   async function loadGroups() {
     const { data } = await api.get("/groups/");
@@ -51,16 +61,25 @@ export default function Dashboard() {
                   <option key={g.id} value={g.id}>{g.name}</option>
                 ))}
               </select>
-              <button className="ghost small" onClick={createGroup}>+ Group</button>
             </>
           )}
         </div>
-        <div className="appbar-right">
-          <span className="user-chip">
+        <div className="appbar-right" ref={menuRef}>
+          <button className="user-chip" onClick={() => setMenuOpen((o) => !o)}>
             <span className="avatar">{(user?.username || "?")[0].toUpperCase()}</span>
             {user?.username}
-          </span>
-          <button className="ghost small" onClick={logout}>Log out</button>
+            <span className="caret">{menuOpen ? "▴" : "▾"}</span>
+          </button>
+          {menuOpen && (
+            <div className="menu">
+              <button className="menu-item" onClick={() => { setMenuOpen(false); createGroup(); }}>
+                + New group
+              </button>
+              <button className="menu-item" onClick={() => { setMenuOpen(false); logout(); }}>
+                Log out
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

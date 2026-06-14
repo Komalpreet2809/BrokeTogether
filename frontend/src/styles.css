@@ -100,23 +100,38 @@ tbody tr:hover td { background: rgba(255, 255, 255, 0.025); }
   position: sticky; top: 0; z-index: 10;
 }
 .appbar-left { display: flex; align-items: center; gap: 14px; }
-.appbar-right { display: flex; align-items: center; gap: 12px; }
+.appbar-right { display: flex; align-items: center; gap: 12px; position: relative; }
 .brand { font-weight: 800; letter-spacing: -0.04em; font-size: 19px; white-space: nowrap; }
 .brand span { color: var(--faint); }
 .divider { width: 1px; height: 22px; background: var(--border-strong); }
 .group-select { width: 170px; padding: 7px 11px; border-radius: 8px; }
+
 .user-chip {
   display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px;
-  border: 1px solid var(--border); border-radius: 999px; color: var(--muted);
-  font-size: 13px; font-weight: 500;
+  border: 1px solid var(--border); border-radius: 999px; color: var(--text);
+  font-size: 13px; font-weight: 500; background: var(--panel-2);
 }
+.user-chip:hover { border-color: var(--border-strong); opacity: 1; background: var(--elevated); }
+.user-chip .caret { color: var(--muted); font-size: 11px; }
 .avatar {
   display: grid; place-items: center; width: 24px; height: 24px; border-radius: 999px;
   background: var(--text); color: #000; font-size: 12px; font-weight: 700;
 }
+
+.menu {
+  position: absolute; top: calc(100% + 8px); right: 0; min-width: 180px; z-index: 50;
+  background: var(--elevated); border: 1px solid var(--border-strong); border-radius: 12px;
+  padding: 6px; display: flex; flex-direction: column; gap: 2px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+.menu-item {
+  background: transparent; color: var(--text); border: none; border-radius: 8px;
+  text-align: left; padding: 9px 12px; font-weight: 500; font-size: 13px;
+}
+.menu-item:hover { background: var(--panel-2); opacity: 1; }
+
 @media (max-width: 640px) {
   .appbar { flex-wrap: wrap; gap: 10px; }
-  .user-chip { display: none; }
   .group-select { width: 130px; }
 }
 
