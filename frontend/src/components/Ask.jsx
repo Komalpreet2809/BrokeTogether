@@ -1,5 +1,10 @@
 import { useState } from "react";
 import api from "../api";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Sparkles } from "lucide-react";
 
 const SAMPLES = [
   "How much does Rohan owe in total?",
@@ -23,42 +28,55 @@ export default function Ask({ groupId }) {
   }
 
   return (
-    <div className="card">
-      <h3 style={{ marginTop: 0 }}>Ask about your balances</h3>
-      <p className="muted small">
-        Ask in plain English. The AI only reads the question and phrases the
-        answer — every number comes from the app's exact balance calculation, not
-        from the model.
-      </p>
-      <div className="row">
-        <input
-          placeholder="e.g. How much does Priya owe?"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && ask()}
-        />
-        <button disabled={busy} onClick={() => ask()}>{busy ? "…" : "Ask"}</button>
-      </div>
-      <div className="row" style={{ marginTop: 8 }}>
-        {SAMPLES.map((s) => (
-          <button key={s} className="ghost small" onClick={() => { setQ(s); ask(s); }}>{s}</button>
-        ))}
-      </div>
-
-      {res && (
-        <div className="answer">
-          <div>{res.answer}</div>
-          <div className="muted small" style={{ marginTop: 8 }}>
-            {res.ai_used ? `Answered by ${res.model} · numbers from the deterministic engine`
-                         : "AI unavailable — showing raw facts"}
-          </div>
-          {!res.ai_used && (
-            <pre className="small" style={{ overflowX: "auto" }}>
-              {JSON.stringify(res.facts, null, 2)}
-            </pre>
-          )}
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5" /> Ask about your balances
+        </CardTitle>
+        <p className="text-sm text-muted-foreground">
+          Ask in plain English. The AI only reads your question and phrases the answer — every number
+          comes from the app's exact balance calculation, not the model.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <div className="flex gap-2">
+          <Input
+            placeholder="e.g. How much does Priya owe?"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && ask()}
+          />
+          <Button disabled={busy} onClick={() => ask()}>{busy ? "…" : "Ask"}</Button>
         </div>
-      )}
-    </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {SAMPLES.map((s) => (
+            <Button key={s} variant="outline" size="sm" onClick={() => { setQ(s); ask(s); }}>
+              {s}
+            </Button>
+          ))}
+        </div>
+
+        {res && (
+          <div className="mt-4 rounded-xl border border-border bg-muted/30 p-4">
+            <div className="text-[15px]">{res.answer}</div>
+            <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+              {res.ai_used ? (
+                <>
+                  <Badge variant="secondary">{res.model}</Badge>
+                  numbers from the deterministic engine
+                </>
+              ) : (
+                <Badge variant="outline">AI unavailable — raw facts shown</Badge>
+              )}
+            </div>
+            {!res.ai_used && (
+              <pre className="mt-2 overflow-x-auto rounded-lg border border-border bg-background p-3 text-xs">
+                {JSON.stringify(res.facts, null, 2)}
+              </pre>
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

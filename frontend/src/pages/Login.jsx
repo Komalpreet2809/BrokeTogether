@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function Login() {
   const { login, register } = useAuth();
@@ -21,45 +25,61 @@ export default function Login() {
       else await register(form.username, form.email, form.password);
       navigate("/");
     } catch (e2) {
-      setErr(e2.response?.data?.detail || JSON.stringify(e2.response?.data) || "Failed");
+      setErr(e2.response?.data?.detail || JSON.stringify(e2.response?.data) || "Something went wrong");
     } finally {
       setBusy(false);
     }
   }
 
   return (
-    <div className="center">
-      <div className="card auth">
-        <div className="brand" style={{ fontSize: 22, marginBottom: 4 }}>
-          Broke<span>Together</span>
-        </div>
-        <div className="muted small" style={{ marginBottom: 14 }}>
-          Shared expenses for flatmates · Spreetail assignment
-        </div>
-        <form onSubmit={submit}>
-          <label>Username</label>
-          <input value={form.username} onChange={set("username")} autoFocus />
-          {mode === "register" && (
-            <>
-              <label>Email</label>
-              <input value={form.email} onChange={set("email")} type="email" />
-            </>
-          )}
-          <label>Password</label>
-          <input value={form.password} onChange={set("password")} type="password" />
-          {err && <div className="err">{err}</div>}
-          <button style={{ width: "100%", marginTop: 16 }} disabled={busy}>
-            {busy ? "…" : mode === "login" ? "Log in" : "Create account"}
-          </button>
-        </form>
-        <div className="muted small" style={{ marginTop: 14 }}>
-          {mode === "login" ? "New here? " : "Have an account? "}
-          <a onClick={() => setMode(mode === "login" ? "register" : "login")} href="#">
-            {mode === "login" ? "Register" : "Log in"}
-          </a>
-          <div style={{ marginTop: 8 }}>Demo account: <b>demo / demo12345</b></div>
-        </div>
-      </div>
+    <div className="grid min-h-screen place-items-center p-5 bg-[radial-gradient(900px_500px_at_50%_-10%,rgba(255,255,255,0.05),transparent_70%)]">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <div className="text-2xl font-extrabold tracking-tight">
+            Broke<span className="text-muted-foreground">Together</span>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            Shared expenses for flatmates — settle up without the awkward math.
+          </div>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={submit} className="space-y-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="username">Username</Label>
+              <Input id="username" value={form.username} onChange={set("username")} autoFocus />
+            </div>
+            {mode === "register" && (
+              <div className="space-y-1.5">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" value={form.email} onChange={set("email")} />
+              </div>
+            )}
+            <div className="space-y-1.5">
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" type="password" value={form.password} onChange={set("password")} />
+            </div>
+            {err && (
+              <div className="rounded-md border border-border bg-muted/50 px-3 py-2 text-sm">{err}</div>
+            )}
+            <Button type="submit" className="w-full" disabled={busy}>
+              {busy ? "…" : mode === "login" ? "Log in" : "Create account"}
+            </Button>
+          </form>
+          <div className="mt-4 text-sm text-muted-foreground">
+            {mode === "login" ? "New here? " : "Have an account? "}
+            <button
+              type="button"
+              className="font-medium text-foreground underline underline-offset-4"
+              onClick={() => setMode(mode === "login" ? "register" : "login")}
+            >
+              {mode === "login" ? "Register" : "Log in"}
+            </button>
+            <div className="mt-2">
+              Demo account: <span className="font-semibold text-foreground">demo / demo12345</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
