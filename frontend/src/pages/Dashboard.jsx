@@ -37,22 +37,30 @@ export default function Dashboard() {
   return (
     <>
       <div className="appbar">
-        <div className="brand">Broke<span>Together</span></div>
-        <div className="row">
+        <div className="appbar-left">
+          <div className="brand">Broke<span>Together</span></div>
           {groups.length > 0 && (
-            <select
-              style={{ width: 180 }}
-              value={groupId || ""}
-              onChange={(e) => setGroupId(Number(e.target.value))}
-            >
-              {groups.map((g) => (
-                <option key={g.id} value={g.id}>{g.name}</option>
-              ))}
-            </select>
+            <>
+              <span className="divider" />
+              <select
+                className="group-select"
+                value={groupId || ""}
+                onChange={(e) => setGroupId(Number(e.target.value))}
+              >
+                {groups.map((g) => (
+                  <option key={g.id} value={g.id}>{g.name}</option>
+                ))}
+              </select>
+              <button className="ghost small" onClick={createGroup}>+ Group</button>
+            </>
           )}
-          <button className="ghost" onClick={createGroup}>+ Group</button>
-          <span className="muted small">{user?.username}</span>
-          <button className="ghost" onClick={logout}>Log out</button>
+        </div>
+        <div className="appbar-right">
+          <span className="user-chip">
+            <span className="avatar">{(user?.username || "?")[0].toUpperCase()}</span>
+            {user?.username}
+          </span>
+          <button className="ghost small" onClick={logout}>Log out</button>
         </div>
       </div>
 

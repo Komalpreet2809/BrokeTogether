@@ -99,8 +99,26 @@ tbody tr:hover td { background: rgba(255, 255, 255, 0.025); }
   background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(8px);
   position: sticky; top: 0; z-index: 10;
 }
-.brand { font-weight: 800; letter-spacing: -0.04em; font-size: 19px; }
+.appbar-left { display: flex; align-items: center; gap: 14px; }
+.appbar-right { display: flex; align-items: center; gap: 12px; }
+.brand { font-weight: 800; letter-spacing: -0.04em; font-size: 19px; white-space: nowrap; }
 .brand span { color: var(--faint); }
+.divider { width: 1px; height: 22px; background: var(--border-strong); }
+.group-select { width: 170px; padding: 7px 11px; border-radius: 8px; }
+.user-chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px;
+  border: 1px solid var(--border); border-radius: 999px; color: var(--muted);
+  font-size: 13px; font-weight: 500;
+}
+.avatar {
+  display: grid; place-items: center; width: 24px; height: 24px; border-radius: 999px;
+  background: var(--text); color: #000; font-size: 12px; font-weight: 700;
+}
+@media (max-width: 640px) {
+  .appbar { flex-wrap: wrap; gap: 10px; }
+  .user-chip { display: none; }
+  .group-select { width: 130px; }
+}
 
 .center { min-height: 100vh; display: grid; place-items: center; padding: 20px;
   background:
