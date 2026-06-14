@@ -16,11 +16,14 @@ export default function Dashboard() {
   const [tab, setTab] = useState("Balances");
   const [refreshKey, setRefreshKey] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [groupMenuOpen, setGroupMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const groupMenuRef = useRef(null);
 
   useEffect(() => {
     function onDocClick(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+      if (groupMenuRef.current && !groupMenuRef.current.contains(e.target)) setGroupMenuOpen(false);
     }
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
@@ -49,20 +52,6 @@ export default function Dashboard() {
       <div className="appbar">
         <div className="appbar-left">
           <div className="brand">Broke<span>Together</span></div>
-          {groups.length > 0 && (
-            <>
-              <span className="divider" />
-              <select
-                className="group-select"
-                value={groupId || ""}
-                onChange={(e) => setGroupId(Number(e.target.value))}
-              >
-                {groups.map((g) => (
-                  <option key={g.id} value={g.id}>{g.name}</option>
-                ))}
-              </select>
-            </>
-          )}
         </div>
         <div className="appbar-right" ref={menuRef}>
           <button className="user-chip" onClick={() => setMenuOpen((o) => !o)}>
@@ -72,9 +61,7 @@ export default function Dashboard() {
           </button>
           {menuOpen && (
             <div className="menu">
-              <button className="menu-item" onClick={() => { setMenuOpen(false); createGroup(); }}>
-                + New group
-              </button>
+              <div className="menu-label">{user?.username}</div>
               <button className="menu-item" onClick={() => { setMenuOpen(false); logout(); }}>
                 Log out
               </button>
@@ -92,7 +79,29 @@ export default function Dashboard() {
         ) : (
           <>
             <div className="between">
-              <h2 style={{ margin: 0 }}>{group.name}</h2>
+              <div className="group-switcher" ref={groupMenuRef}>
+                <button className="group-title" onClick={() => setGroupMenuOpen((o) => !o)}>
+                  {group.name}
+                  <span className="caret">{groupMenuOpen ? "▴" : "▾"}</span>
+                </button>
+                {groupMenuOpen && (
+                  <div className="menu">
+                    {groups.map((g) => (
+                      <button
+                        key={g.id}
+                        className={`menu-item ${g.id === groupId ? "active" : ""}`}
+                        onClick={() => { setGroupId(g.id); setGroupMenuOpen(false); }}
+                      >
+                        {g.name}
+                      </button>
+                    ))}
+                    <div className="menu-sep" />
+                    <button className="menu-item" onClick={() => { setGroupMenuOpen(false); createGroup(); }}>
+                      + New group
+                    </button>
+                  </div>
+                )}
+              </div>
               <span className="muted small">
                 {group.member_count} members · base {group.base_currency}
               </span>

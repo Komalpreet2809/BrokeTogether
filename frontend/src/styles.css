@@ -129,6 +129,21 @@ tbody tr:hover td { background: rgba(255, 255, 255, 0.025); }
   text-align: left; padding: 9px 12px; font-weight: 500; font-size: 13px;
 }
 .menu-item:hover { background: var(--panel-2); opacity: 1; }
+.menu-item.active { background: var(--panel-2); }
+.menu-item.active::after { content: "✓"; float: right; color: var(--muted); }
+.menu-label { padding: 6px 12px 4px; font-size: 11px; color: var(--faint);
+  text-transform: uppercase; letter-spacing: 0.06em; }
+.menu-sep { height: 1px; background: var(--border); margin: 4px 0; }
+
+/* Group switcher (the page title acts as the group selector) */
+.group-switcher { position: relative; }
+.group-title {
+  background: transparent; border: none; color: var(--text); padding: 4px 6px 4px 0;
+  font-size: 24px; font-weight: 800; letter-spacing: -0.03em;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.group-title:hover { opacity: 0.8; }
+.group-title .caret { color: var(--muted); font-size: 14px; font-weight: 400; }
 
 @media (max-width: 640px) {
   .appbar { flex-wrap: wrap; gap: 10px; }
