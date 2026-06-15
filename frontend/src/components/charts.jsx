@@ -17,10 +17,39 @@ export function money(str, cur = "INR", decimals = false) {
 
 export function Initial({ name, size = 28 }) {
   const ch = (name || "?").trim()[0]?.toUpperCase() || "?";
+  
+  // Hash name persistently to select a beautiful oklch gradient
+  let hash = 0;
+  const cleanedName = (name || "").trim();
+  for (let i = 0; i < cleanedName.length; i++) {
+    hash = cleanedName.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  
+  const gradients = [
+    "linear-gradient(135deg, oklch(0.65 0.18 310), oklch(0.55 0.20 340))", // Violet/Magenta
+    "linear-gradient(135deg, oklch(0.60 0.17 240), oklch(0.50 0.16 270))", // Blue/Indigo
+    "linear-gradient(135deg, oklch(0.65 0.18 190), oklch(0.55 0.15 220))", // Cyan/Blue
+    "linear-gradient(135deg, oklch(0.68 0.14 160), oklch(0.58 0.15 180))", // Emerald/Teal
+    "linear-gradient(135deg, oklch(0.70 0.15 140), oklch(0.60 0.16 160))", // Mint/Emerald
+    "linear-gradient(135deg, oklch(0.75 0.15 70), oklch(0.65 0.18 45))",  // Yellow/Orange
+    "linear-gradient(135deg, oklch(0.68 0.18 45), oklch(0.58 0.20 25))",  // Orange/Red
+    "linear-gradient(135deg, oklch(0.60 0.22 20), oklch(0.50 0.24 350))", // Red/Rose
+    "linear-gradient(135deg, oklch(0.65 0.20 330), oklch(0.55 0.22 360))", // Magenta/Pink
+  ];
+  
+  const index = Math.abs(hash) % gradients.length;
+  const background = gradients[index];
+
   return (
     <span
-      className="inline-grid place-items-center rounded-full bg-primary font-bold text-primary-foreground shrink-0"
-      style={{ width: size, height: size, fontSize: size * 0.42 }}
+      className="inline-grid place-items-center rounded-full font-bold text-white shrink-0 shadow-sm transition-transform duration-200 hover:scale-105"
+      style={{
+        width: size,
+        height: size,
+        fontSize: size * 0.45,
+        background: background,
+        textShadow: "0 1px 2px rgba(0,0,0,0.15)"
+      }}
     >
       {ch}
     </span>
