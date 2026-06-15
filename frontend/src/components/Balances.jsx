@@ -26,6 +26,100 @@ export default function Balances({ groupId, group }) {
   const [hoveredNode, setHoveredNode] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [zoom, setZoom] = useState(1);
+  const [nodePositions, setNodePositions] = useState({});
+  const [draggedNode, setDraggedNode] = useState(null);
+  const [dragStart, setDragStart] = useState(null);
+  const [hasDragged, setHasDragged] = useState(false);
+
+  useEffect(() => {
+    if (group && group.members) {
+      const N = group.members.length;
+      const initial = {};
+      group.members.forEach((m, idx) => {
+        const angle = (2 * Math.PI * idx) / N - Math.PI / 2;
+        initial[m.id] = {
+          x: 200 + 115 * Math.cos(angle),
+          y: 200 + 115 * Math.sin(angle)
+        };
+      });
+      setNodePositions(initial);
+    }
+  }, [group]);
+
+  useEffect(() => {
+    setNodePositions({});
+  }, [groupId]);
+
+  const handleMouseMove = (e) => {
+    if (draggedNode === null) return;
+    
+    if (dragStart) {
+      const dist = Math.sqrt(Math.pow(e.clientX - dragStart.x, 2) + Math.pow(e.clientY - dragStart.y, 2));
+      if (dist > 5) {
+        setHasDragged(true);
+      }
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clientX = e.clientX - rect.left;
+    const clientY = e.clientY - rect.top;
+    
+    const svgX = (clientX / rect.width) * 400;
+    const svgY = (clientY / rect.height) * 400;
+    
+    // Reverse scale transformation relative to center 200, 200
+    const nativeX = 200 + (svgX - 200) / zoom;
+    const nativeY = 200 + (svgY - 200) / zoom;
+    
+    const boundedX = Math.max(Math.min(nativeX, 385), 15);
+    const boundedY = Math.max(Math.min(nativeY, 385), 15);
+    
+    setNodePositions(prev => ({
+      ...prev,
+      [draggedNode]: { x: boundedX, y: boundedY }
+    }));
+  };
+
+  const handleTouchMove = (e) => {
+    if (draggedNode === null) return;
+    if (e.touches.length === 0) return;
+    const touch = e.touches[0];
+
+    if (dragStart) {
+      const dist = Math.sqrt(Math.pow(touch.clientX - dragStart.x, 2) + Math.pow(touch.clientY - dragStart.y, 2));
+      if (dist > 5) {
+        setHasDragged(true);
+      }
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clientX = touch.clientX - rect.left;
+    const clientY = touch.clientY - rect.top;
+    
+    const svgX = (clientX / rect.width) * 400;
+    const svgY = (clientY / rect.height) * 400;
+    
+    const nativeX = 200 + (svgX - 200) / zoom;
+    const nativeY = 200 + (svgY - 200) / zoom;
+    
+    const boundedX = Math.max(Math.min(nativeX, 385), 15);
+    const boundedY = Math.max(Math.min(nativeY, 385), 15);
+    
+    setNodePositions(prev => ({
+      ...prev,
+      [draggedNode]: { x: boundedX, y: boundedY }
+    }));
+  };
+
+  const handleDragEnd = () => {
+    setDraggedNode(null);
+    setDragStart(null);
+  };
+
+  const handleReset = () => {
+    setZoom(1);
+    setNodePositions({});
+  };
 
   useEffect(() => {
     api.get(`/groups/${groupId}/balances`).then((r) => setBal(r.data));
@@ -89,6 +183,9 @@ export default function Balances({ groupId, group }) {
   // --- Network Graph Nodes and Edges calculation ---
   const N = group.members.length;
   const graphNodes = group.members.map((m, idx) => {
+    if (nodePositions[m.id]) {
+      return { id: m.id, name: m.name, x: nodePositions[m.id].x, y: nodePositions[m.id].y };
+    }
     const angle = (2 * Math.PI * idx) / N - Math.PI / 2; // start at top
     return {
       id: m.id,
@@ -139,7 +236,17 @@ export default function Balances({ groupId, group }) {
             </p>
           </CardHeader>
           <CardContent className="flex items-center justify-center p-4 min-h-[350px] relative">
-            <svg viewBox="0 0 400 400" className="w-full max-w-[340px] h-auto overflow-visible select-none">
+            <svg
+              viewBox="0 0 400 400"
+              className={`w-full max-w-[340px] h-auto overflow-visible select-none ${
+                draggedNode !== null ? "cursor-grabbing" : "cursor-grab"
+              }`}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleDragEnd}
+              onMouseLeave={handleDragEnd}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleDragEnd}
+            >
               <defs>
                 <marker id="arrow" viewBox="0 0 10 10" refX="21" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
                   <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--muted-foreground)" />
@@ -234,11 +341,27 @@ export default function Balances({ groupId, group }) {
                 return (
                   <g
                     key={n.id}
-                    className="cursor-pointer transition-all duration-300"
+                    className="cursor-grab active:cursor-grabbing transition-all duration-150"
                     style={{ opacity, transformOrigin: `${n.x}px ${n.y}px`, transform: `scale(${scale})` }}
                     onMouseEnter={() => setHoveredNode(n.id)}
                     onMouseLeave={() => setHoveredNode(null)}
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      setDragStart({ x: e.clientX, y: e.clientY });
+                      setHasDragged(false);
+                      setDraggedNode(n.id);
+                    }}
+                    onTouchStart={(e) => {
+                      e.stopPropagation();
+                      if (e.touches.length > 0) {
+                        setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+                      }
+                      setHasDragged(false);
+                      setDraggedNode(n.id);
+                    }}
                     onClick={() => {
+                      if (hasDragged) return;
                       const b = bal.balances.find(x => x.member_id === n.id);
                       if (b) openDrill(b);
                     }}
@@ -281,8 +404,8 @@ export default function Balances({ groupId, group }) {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                onClick={() => setZoom(1)}
-                title="Reset Zoom"
+                onClick={handleReset}
+                title="Reset Zoom & Drag"
               >
                 <RotateCcw className="h-4 w-4" />
               </Button>
