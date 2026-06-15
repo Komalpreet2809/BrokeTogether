@@ -3,55 +3,73 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Monochrome (neutral) theme. Light values kept for completeness, but the app
-   runs in dark mode (html.dark) — a true black & white aesthetic. */
 :root {
-  --radius: 0.75rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --radius: 0.85rem;
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.15 0 0);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.15 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.145 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --pos: oklch(0.985 0 0);
-  --neg: oklch(0.65 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+  --primary: oklch(0.15 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.94 0 0);
+  --secondary-foreground: oklch(0.15 0 0);
+  --muted: oklch(0.94 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.94 0 0);
+  --accent-foreground: oklch(0.15 0 0);
+  --destructive: oklch(0.25 0 0);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.89 0 0);
+  --input: oklch(0.89 0 0);
+  --ring: oklch(0.5 0 0);
+  
+  /* Monochrome semantic colors for financial dashboard */
+  --pos: oklch(0.15 0 0);
+  --neg: oklch(0.45 0 0);
+  --pos-bg: oklch(0.92 0 0);
+  --neg-bg: oklch(0.96 0 0);
+
+  /* Monochrome category shades */
+  --cat-food: oklch(0.85 0 0);
+  --cat-bills: oklch(0.65 0 0);
+  --cat-travel: oklch(0.45 0 0);
+  --cat-others: oklch(0.25 0 0);
 }
 
 .dark {
-  --background: oklch(0.06 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.115 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.14 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.12 0 0);
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.13 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.13 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.98 0 0);
+  --primary-foreground: oklch(0.13 0 0);
   --secondary: oklch(0.2 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.19 0 0);
-  --muted-foreground: oklch(0.66 0 0);
-  --accent: oklch(0.22 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.7 0.04 25);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 9%);
-  --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.556 0 0);
-  --pos: oklch(0.985 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.62 0 0);
+  --accent: oklch(0.2 0 0);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.85 0 0);
+  --destructive-foreground: oklch(0.13 0 0);
+  --border: oklch(0.98 0 0 / 10%);
+  --input: oklch(0.98 0 0 / 12%);
+  --ring: oklch(0.62 0 0);
+  
+  /* Dark mode monochrome semantic colors */
+  --pos: oklch(0.98 0 0);
   --neg: oklch(0.62 0 0);
+  --pos-bg: oklch(0.18 0 0);
+  --neg-bg: oklch(0.23 0 0);
+
+  /* Monochrome category shades for dark mode */
+  --cat-food: oklch(0.9 0 0);
+  --cat-bills: oklch(0.7 0 0);
+  --cat-travel: oklch(0.5 0 0);
+  --cat-others: oklch(0.3 0 0);
 }
 
 @theme inline {
@@ -80,12 +98,19 @@
   --color-ring: var(--ring);
   --color-pos: var(--pos);
   --color-neg: var(--neg);
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-pos-bg: var(--pos-bg);
+  --color-neg-bg: var(--neg-bg);
+  --color-cat-food: var(--cat-food);
+  --color-cat-bills: var(--cat-bills);
+  --color-cat-travel: var(--cat-travel);
+  --color-cat-others: var(--cat-others);
+  --font-sans: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
   * {
     border-color: var(--border);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
   body {
     background-color: var(--background);
@@ -93,3 +118,60 @@
     font-feature-settings: "cv11", "ss01";
   }
 }
+
+/* Custom visual polish */
+.glow-card {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(5px);
+}
+.dark .glow-card {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Animated dotted line for settlement flows */
+@keyframes flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.flow-line {
+  stroke-dasharray: 6 4;
+  animation: flow 1s linear infinite;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Receipt paper styling for details card */
+.receipt-paper {
+  background: var(--card);
+  position: relative;
+  border-radius: 4px;
+}
+.receipt-paper::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-image: linear-gradient(135deg, var(--card) 4px, transparent 0),
+                    linear-gradient(225deg, var(--card) 4px, transparent 0);
+  background-position: left bottom;
+  background-size: 8px 8px;
+  background-repeat: repeat-x;
+}
+

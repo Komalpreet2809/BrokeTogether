@@ -35,8 +35,9 @@ export default function Login() {
     <div className="grid min-h-screen place-items-center p-5 bg-[radial-gradient(900px_500px_at_50%_-10%,rgba(255,255,255,0.05),transparent_70%)]">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <div className="text-2xl font-extrabold tracking-tight">
-            Broke<span className="text-muted-foreground">Together</span>
+          <div className="text-2xl font-extrabold tracking-tight flex items-center gap-2">
+            <img src="/favicon.png" alt="BrokeTogether Logo" className="h-7 w-7 rounded-md" />
+            <span>Broke<span className="text-muted-foreground">Together</span></span>
           </div>
           <div className="text-sm text-muted-foreground">
             Shared expenses for flatmates — settle up without the awkward math.
