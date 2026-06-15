@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Loader2 } from "lucide-react";
 
 export default function Login() {
   const { login, register } = useAuth();
@@ -62,8 +63,17 @@ export default function Login() {
             {err && (
               <div className="rounded-md border border-border bg-muted/50 px-3 py-2 text-sm">{err}</div>
             )}
-            <Button type="submit" className="w-full" disabled={busy}>
-              {busy ? "…" : mode === "login" ? "Log in" : "Create account"}
+            <Button type="submit" className="w-full cursor-wait" disabled={busy}>
+              {busy ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin text-background" />
+                  <span>Waking up server (takes ~50s)...</span>
+                </span>
+              ) : mode === "login" ? (
+                "Log in"
+              ) : (
+                "Create account"
+              )}
             </Button>
           </form>
           <div className="mt-4 text-sm text-muted-foreground">
