@@ -579,19 +579,19 @@ export default function Balances({ groupId, group }) {
             ) : (
               <div className="space-y-2">
                 {bal.settle_up.map((s, i) => (
-                  <div key={i} className="flex items-center gap-2 rounded-xl border border-border bg-muted/20 p-3 transition-all hover:shadow-sm">
-                    <span className="text-sm font-bold text-foreground pl-1">{s.from}</span>
-                    <span className="text-xs text-muted-foreground px-1">pays</span>
+                  <div key={i} className="flex items-center gap-2 rounded-xl border border-border bg-muted/20 p-3 transition-all hover:shadow-sm overflow-x-auto whitespace-nowrap scrollbar-thin">
+                    <span className="text-sm font-bold text-foreground pl-1 whitespace-nowrap shrink-0">{s.from}</span>
+                    <span className="text-xs text-muted-foreground px-1 shrink-0">pays</span>
                     <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                    <span className="text-sm font-bold text-foreground pl-1">{s.to}</span>
-                    <div className="ml-auto flex items-center gap-2.5">
-                      <span className="text-sm font-extrabold text-foreground bg-secondary/80 px-2.5 py-1 rounded-lg tabular-nums border border-border">
+                    <span className="text-sm font-bold text-foreground pl-1 whitespace-nowrap shrink-0">{s.to}</span>
+                    <div className="ml-auto flex items-center gap-2.5 shrink-0">
+                      <span className="text-sm font-extrabold text-foreground bg-secondary/80 px-2.5 py-1 rounded-lg tabular-nums border border-border shrink-0">
                         {money(s.amount, cur)}
                       </span>
                       <Button
                         size="sm"
                         variant="outline"
-                        className="h-7 px-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground cursor-pointer flex items-center gap-1 rounded-lg animate-fadeIn"
+                        className="h-7 px-2.5 text-xs font-semibold text-muted-foreground hover:text-foreground cursor-pointer flex items-center gap-1 rounded-lg animate-fadeIn shrink-0"
                         onClick={() => handleSettle(s)}
                       >
                         <Check className="h-3.5 w-3.5" /> Settle
