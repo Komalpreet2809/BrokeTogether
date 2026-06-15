@@ -142,7 +142,7 @@ export default function Expenses({ group, onChange }) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search description/notes..."
-                className="pl-9 pr-8 h-9 text-xs"
+                className="pl-9 pr-8 h-9 text-sm"
               />
               {search && (
                 <button
@@ -157,15 +157,15 @@ export default function Expenses({ group, onChange }) {
             {/* Select Dropdowns (Grid on mobile, flex row on desktop) */}
             <div className="grid grid-cols-2 gap-3 w-full sm:flex sm:items-center sm:w-auto">
               <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-1.5 w-full sm:w-auto">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground sm:normal-case sm:font-semibold sm:text-xs">Payer</span>
+                <span className="text-xs uppercase font-bold tracking-wider text-muted-foreground">Payer</span>
                 <Select value={payer} onValueChange={setPayer}>
-                  <SelectTrigger className="h-9 w-full sm:w-[130px] text-xs bg-card">
+                  <SelectTrigger className="h-9 w-full sm:w-[130px] text-sm bg-card">
                     <SelectValue placeholder="All Members" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all" className="text-xs">All Members</SelectItem>
+                    <SelectItem value="all" className="text-sm">All Members</SelectItem>
                     {group.members.map((m) => (
-                      <SelectItem key={m.id} value={String(m.id)} className="text-xs">
+                      <SelectItem key={m.id} value={String(m.id)} className="text-sm">
                         {m.name}
                       </SelectItem>
                     ))}
@@ -174,20 +174,20 @@ export default function Expenses({ group, onChange }) {
               </div>
 
               <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-1.5 w-full sm:w-auto">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground sm:normal-case sm:font-semibold sm:text-xs">Sort by</span>
+                <span className="text-xs uppercase font-bold tracking-wider text-muted-foreground">Sort by</span>
                 <Select value={`${sortKey}-${sortOrder}`} onValueChange={(v) => {
                   const [key, order] = v.split("-");
                   setSortKey(key);
                   setSortOrder(order);
                 }}>
-                  <SelectTrigger className="h-9 w-full sm:w-[155px] text-xs bg-card">
+                  <SelectTrigger className="h-9 w-full sm:w-[155px] text-sm bg-card">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="date-desc" className="text-xs">Date: Newest First</SelectItem>
-                    <SelectItem value="date-asc" className="text-xs">Date: Oldest First</SelectItem>
-                    <SelectItem value="amount-desc" className="text-xs">Amount: High to Low</SelectItem>
-                    <SelectItem value="amount-asc" className="text-xs">Amount: Low to High</SelectItem>
+                    <SelectItem value="date-desc" className="text-sm">Date: Newest First</SelectItem>
+                    <SelectItem value="date-asc" className="text-sm">Date: Oldest First</SelectItem>
+                    <SelectItem value="amount-desc" className="text-sm">Amount: High to Low</SelectItem>
+                    <SelectItem value="amount-asc" className="text-sm">Amount: Low to High</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -197,7 +197,7 @@ export default function Expenses({ group, onChange }) {
           {/* Quick Keyword Pills (Monochrome Style) */}
           <div className="flex flex-col gap-2.5 text-xs border-t border-border/10 pt-3 w-full sm:flex-row sm:items-center sm:gap-3">
             <div className="flex items-center justify-between sm:justify-start w-full sm:w-auto shrink-0">
-              <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground">Tags</span>
+              <span className="text-xs uppercase font-bold tracking-wider text-muted-foreground">Tags</span>
               {/* Clear filters on mobile only */}
               {(search || payer !== "all" || tag !== "all") && (
                 <button
@@ -229,7 +229,7 @@ export default function Expenses({ group, onChange }) {
                     key={pill.id}
                     type="button"
                     onClick={() => setTag(pill.id)}
-                    className={`px-3 py-1 rounded-full border text-[11px] font-semibold transition-all cursor-pointer ${
+                    className={`px-3 py-1 rounded-full border text-xs font-semibold transition-all cursor-pointer ${
                       isActive
                         ? "bg-foreground text-background border-transparent scale-102 shadow-sm font-bold"
                         : "border-border text-muted-foreground hover:text-foreground hover:bg-muted bg-transparent"
