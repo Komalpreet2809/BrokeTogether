@@ -31,11 +31,11 @@
   --pos-bg: oklch(0.95 0.03 142);
   --neg-bg: oklch(0.96 0.03 29);
 
-  /* Premium category colors */
-  --cat-food: oklch(0.74 0.15 25);
-  --cat-bills: oklch(0.74 0.15 235);
-  --cat-travel: oklch(0.74 0.15 285);
-  --cat-others: oklch(0.74 0.15 150);
+  /* Premium category colors - Highly Vibrant Spectrum */
+  --cat-food: oklch(0.66 0.24 25);
+  --cat-bills: oklch(0.68 0.21 190);
+  --cat-travel: oklch(0.62 0.24 295);
+  --cat-others: oklch(0.78 0.20 75);
 }
 
 .dark {
@@ -59,17 +59,17 @@
   --input: oklch(0.98 0 0 / 12%);
   --ring: oklch(0.62 0 0);
   
-  /* Dark mode premium color semantic colors */
-  --pos: oklch(0.78 0.13 142);
-  --neg: oklch(0.74 0.14 29);
+  /* Dark mode premium color semantic colors - Highly Vibrant */
+  --pos: oklch(0.78 0.20 142);
+  --neg: oklch(0.72 0.22 29);
   --pos-bg: oklch(0.18 0.04 142);
   --neg-bg: oklch(0.18 0.04 29);
 
-  /* Dark mode premium category colors */
-  --cat-food: oklch(0.78 0.14 25);
-  --cat-bills: oklch(0.78 0.12 235);
-  --cat-travel: oklch(0.78 0.12 285);
-  --cat-others: oklch(0.78 0.12 150);
+  /* Dark mode premium category colors - Highly Vibrant */
+  --cat-food: oklch(0.72 0.22 25);
+  --cat-bills: oklch(0.74 0.19 190);
+  --cat-travel: oklch(0.68 0.21 295);
+  --cat-others: oklch(0.82 0.19 75);
 }
 
 @theme inline {
