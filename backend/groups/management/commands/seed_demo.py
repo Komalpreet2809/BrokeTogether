@@ -27,12 +27,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         user, created = User.objects.get_or_create(
             username="demo", defaults={"email": "demo@example.com"})
+        user.set_password("BrokeTogether2026!")
+        user.save()
         if created:
-            user.set_password("BrokeTogether2026!")
-            user.save()
             self.stdout.write(self.style.SUCCESS("Created demo user (demo / BrokeTogether2026!)"))
         else:
-            self.stdout.write("Demo user already exists")
+            self.stdout.write(self.style.SUCCESS("Updated demo user password to BrokeTogether2026!"))
 
         group, _ = Group.objects.get_or_create(
             name="Flat 4B", owner=user, defaults={"base_currency": "INR"})
