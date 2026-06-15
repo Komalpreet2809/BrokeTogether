@@ -25,7 +25,7 @@ export default function Balances({ groupId, group }) {
   // Interactive hover states
   const [hoveredNode, setHoveredNode] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(1.25);
   const [nodePositions, setNodePositions] = useState({});
   const [draggedNode, setDraggedNode] = useState(null);
   const [dragStart, setDragStart] = useState(null);
@@ -118,7 +118,7 @@ export default function Balances({ groupId, group }) {
   };
 
   const handleReset = () => {
-    setZoom(1);
+    setZoom(1.25);
     setNodePositions({});
     setSelectedNode(null);
   };
