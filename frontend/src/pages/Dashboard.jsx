@@ -106,7 +106,7 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-5 pb-24 pt-6">
+      <main className="mx-auto max-w-5xl px-5 pb-32 pt-6">
         {!group ? (
           <div className="rounded-xl border border-border bg-card p-6">
             <p className="mb-4">No groups yet.</p>
@@ -142,16 +142,6 @@ export default function Dashboard() {
               </span>
             </div>
 
-            <Tabs value={tab} onValueChange={setTab} className="mt-5">
-              <TabsList>
-                {TABS.map(({ label, icon: Icon }) => (
-                  <TabsTrigger key={label} value={label}>
-                    <Icon className="h-4 w-4" /> {label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-
             <div className="mt-5">
               {tab === "Overview" && <Balances groupId={group.id} group={group} key={`b${refreshKey}`} />}
               {tab === "Expenses" && <Expenses group={group} onChange={bump} key={`e${refreshKey}`} />}
@@ -162,6 +152,34 @@ export default function Dashboard() {
                 <ImportWizard group={group} onCommitted={() => { bump(); setTab("Overview"); }} />
               )}
               {tab === "Ask AI" && <Ask groupId={group.id} key={`a${refreshKey}`} />}
+            </div>
+
+            {/* Flying Dock at the bottom center of the screen */}
+            <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+              <div className="flex items-center gap-2.5 bg-card/85 backdrop-blur-xl border border-border/80 p-2.5 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
+                {TABS.map(({ label, icon: Icon }) => {
+                  const isActive = tab === label;
+                  return (
+                    <button
+                      key={label}
+                      onClick={() => setTab(label)}
+                      className={`group relative w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                        isActive
+                          ? "bg-foreground text-background border-transparent scale-108 shadow-[0_4px_20px_rgba(0,0,0,0.15)]"
+                          : "bg-transparent border border-border/20 text-muted-foreground hover:text-foreground hover:bg-muted/50 hover:scale-105"
+                      }`}
+                    >
+                      {/* Icon */}
+                      <Icon className={`h-5 w-5 transition-transform duration-300 ${isActive ? "scale-105" : "group-hover:scale-105"}`} />
+
+                      {/* Tooltip */}
+                      <span className="absolute -top-10 scale-0 group-hover:scale-100 transition-all duration-200 bg-foreground text-background px-2.5 py-1 rounded-md text-[10px] font-bold shadow-md whitespace-nowrap pointer-events-none">
+                        {label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </>
         )}
