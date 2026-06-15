@@ -114,8 +114,18 @@
   }
   body {
     background-color: var(--background);
+    background-image: radial-gradient(at 50% 0%, oklch(0.95 0.01 240 / 40%) 0px, transparent 50%),
+                      radial-gradient(at 0% 100%, oklch(0.96 0.01 142 / 20%) 0px, transparent 50%),
+                      radial-gradient(at 100% 100%, oklch(0.96 0.01 29 / 20%) 0px, transparent 50%);
+    background-attachment: fixed;
     color: var(--foreground);
     font-feature-settings: "cv11", "ss01";
+  }
+  .dark body {
+    background-image: radial-gradient(at 50% 0%, oklch(0.14 0.02 240 / 30%) 0px, transparent 65%),
+                      radial-gradient(at 0% 100%, oklch(0.11 0.02 142 / 15%) 0px, transparent 50%),
+                      radial-gradient(at 100% 100%, oklch(0.11 0.02 29 / 15%) 0px, transparent 50%);
+    background-attachment: fixed;
   }
 }
 
