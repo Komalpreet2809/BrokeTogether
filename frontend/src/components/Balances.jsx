@@ -395,10 +395,18 @@ export default function Balances({ groupId, group }) {
                         setSelectedNode(prev => prev === n.id ? null : n.id);
                       }}
                     >
-                      <circle cx={n.x} cy={n.y} r="18" fill="var(--card)" stroke="var(--primary)" strokeWidth="2.5" className="shadow-sm" />
-                      <text textAnchor="middle" x={n.x} y={n.y + 4.5} fontSize="11" fontWeight="bold" className="fill-foreground font-sans uppercase">
-                        {n.name[0]}
-                      </text>
+                      <clipPath id={`clip-${n.id}`}>
+                        <circle cx={n.x} cy={n.y} r="18" />
+                      </clipPath>
+                      <image
+                        href={`https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(n.name)}`}
+                        x={n.x - 18}
+                        y={n.y - 18}
+                        width="36"
+                        height="36"
+                        clipPath={`url(#clip-${n.id})`}
+                      />
+                      <circle cx={n.x} cy={n.y} r="18" fill="none" stroke={strokeColor} strokeWidth={strokeWidth} className="shadow-sm" />
                       <rect x={n.x - 30} y={n.y + 24} width="60" height="15" rx="3" fill="var(--card)" stroke="var(--border)" strokeWidth="0.5" />
                       <text textAnchor="middle" x={n.x} y={n.y + 34} fontSize="9" fontWeight="500" className="fill-muted-foreground font-sans">
                         {n.name}
