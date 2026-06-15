@@ -131,7 +131,7 @@ export default function Expenses({ group, onChange }) {
       <CardContent className="p-0">
         {/* Filters and Sorting Control Bar */}
         <div className="px-6 py-4 flex flex-col gap-4 border-b border-border/80 bg-muted/5">
-          <div className="flex flex-col gap-3.5">
+          <div className="flex flex-col gap-3.5 sm:flex-row sm:items-center sm:justify-between">
             {/* Search input */}
             <div className="relative w-full sm:max-w-xs">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-muted-foreground">
@@ -155,7 +155,7 @@ export default function Expenses({ group, onChange }) {
             </div>
 
             {/* Select Dropdowns (Grid on mobile, flex row on desktop) */}
-            <div className="grid grid-cols-2 gap-3 w-full sm:flex sm:items-center sm:w-auto">
+            <div className="grid grid-cols-2 gap-3 w-full sm:flex sm:items-center sm:gap-4 sm:w-auto">
               <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-1.5 w-full sm:w-auto">
                 <span className="text-xs uppercase font-bold tracking-wider text-muted-foreground">Payer</span>
                 <Select value={payer} onValueChange={setPayer}>
