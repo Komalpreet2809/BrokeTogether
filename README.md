@@ -51,19 +51,61 @@ problem, surfacing it, and handling it deliberately instead of silently.
 - **AI:** Groq `llama-3.3-70b-versatile` (free tier) for the NL query only.
 - **Deploy:** Render (API + Postgres) + Vercel (React) with custom domain support.
 
-## Architecture
+## Architecture & Data Flow
 
-```
-React (Vercel)  ──HTTP/JSON──>  Django REST API (Render)  ──>  PostgreSQL
-                                      │
-                                      ├── importer/  CSV → stage → approve → commit
-                                      ├── expenses/  models + money + splitting + balances
-                                      ├── groups/    Group, time-bound Member, aliases
-                                      └── aiquery/   Groq (phrasing only; math is deterministic)
+```mermaid
+graph TD
+    classDef default fill:#fafafa,stroke:#e5e5e5,stroke-width:1px;
+    classDef highlight fill:#f5f5f5,stroke:#000,stroke-width:2px;
+
+    A[React Client SPA <br> Vercel Custom Domain] -- HTTP/JSON /api --> B[Django REST API <br> Render Web Service]
+    B --> C[(PostgreSQL Database <br> Render Managed)]
+    
+    subgraph Django Core Modules
+        B --> D[importer: CSV Ingestion & Staging]
+        B --> E[expenses: Splits & Balances]
+        B --> F[groups: Time-bound Members]
+        B --> G[aiquery: Conversational Assistant]
+    end
+    
+    G -- Context & Query --> H[Groq Llama 3.3 API]
+    H -- Natural Phrasing --> G
 ```
 
-The import is two-phase: **stage** (parse + detect anomalies, write nothing real)
-→ **approve** (human accepts/rejects changed rows) → **commit** (materialize).
+## Two-Phase CSV Import Lifecycle
+
+```mermaid
+flowchart TD
+    A[Upload CSV File] --> B[Phase 1: STAGE]
+    B --> C[Field Ingestion & Sanitization]
+    C --> D[Run 20+ Anomaly Detectors]
+    D --> E[Create ImportBatch & StagedRows]
+    E --> F{Audit Staged Rows}
+    F -- Modified / Dropped / Swapped --> G[Hold for Human Review]
+    F -- Clean Rows --> H[Auto-Approve]
+    G --> I[Recruiter / Admin Decision]
+    I -- Approve / Ignore / Override --> J[Phase 2: COMMIT]
+    H --> J
+    J --> K[Materialize into real Expense / Split / Settlement DB rows]
+```
+
+## Database Schema (ERD)
+
+```mermaid
+erDiagram
+    User ||--o{ Group : "owns"
+    Group ||--|{ Member : "has"
+    Member ||--o{ MemberAlias : "has"
+    Member ||--o{ Expense : "pays"
+    Expense ||--|{ ExpenseSplit : "has"
+    Member ||--o{ ExpenseSplit : "owes"
+    Group ||--o{ Settlement : "tracks"
+    Member ||--o{ Settlement : "sends"
+    Member ||--o{ Settlement : "receives"
+    Group ||--o{ ImportBatch : "imports"
+    ImportBatch ||--o{ StagedRow : "stages"
+    StagedRow ||--o{ Anomaly : "triggers"
+```
 
 ## Run locally
 
