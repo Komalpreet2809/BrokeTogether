@@ -294,13 +294,45 @@ export default function Balances({ groupId, group }) {
       {/* Visual Debt settlement map */}
       <div className="grid gap-6 lg:grid-cols-5">
         <Card className="lg:col-span-3 glow-card overflow-hidden">
-          <CardHeader className="pb-2">
-            <CardTitle className="flex items-center gap-2">
-              <Scale className="h-5 w-5 text-primary" /> Visual Settlement Map
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Interactive network showing who owes whom.
-            </p>
+          <CardHeader className="pb-2 flex flex-row items-center justify-between gap-4">
+            <div className="flex-1 min-w-0">
+              <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <Scale className="h-5 w-5 text-primary" /> Visual Settlement Map
+              </CardTitle>
+              <p className="text-xs sm:text-sm text-muted-foreground truncate sm:not-truncate">
+                Interactive network showing who owes whom.
+              </p>
+            </div>
+            {/* Zoom Controls inside Card Header */}
+            <div className="flex items-center gap-1 bg-muted/40 border border-border p-1 rounded-xl shadow-xs shrink-0">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                onClick={() => setZoom(z => Math.min(z + 0.15, 2.5))}
+                title="Zoom In"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                onClick={() => setZoom(z => Math.max(z - 0.15, 0.5))}
+                title="Zoom Out"
+              >
+                <ZoomOut className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                onClick={handleReset}
+                title="Reset Zoom"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="relative flex items-center justify-center p-4 min-h-[350px]">
             <div className="relative w-full max-w-[340px]">
@@ -494,36 +526,6 @@ export default function Balances({ groupId, group }) {
                   </button>
                 </div>
               )}
-              {/* Floating Zoom Controls */}
-              <div className="absolute bottom-2 right-2 flex flex-col gap-1 bg-card/85 backdrop-blur border border-border p-1.5 rounded-xl shadow-sm z-10">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                  onClick={() => setZoom(z => Math.min(z + 0.15, 2.5))}
-                  title="Zoom In"
-                >
-                  <ZoomIn className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                  onClick={() => setZoom(z => Math.max(z - 0.15, 0.5))}
-                  title="Zoom Out"
-                >
-                  <ZoomOut className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                  onClick={handleReset}
-                  title="Reset Zoom & Drag"
-                >
-                  <RotateCcw className="h-4 w-4" />
-                </Button>
-              </div>
             </div>
           </CardContent>
         </Card>
