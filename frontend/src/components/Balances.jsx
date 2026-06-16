@@ -494,37 +494,36 @@ export default function Balances({ groupId, group }) {
                   </button>
                 </div>
               )}
-            </div>
-  
-            {/* Floating Zoom Controls */}
-            <div className="absolute bottom-4 right-4 flex flex-col gap-1 bg-card/85 backdrop-blur border border-border p-1.5 rounded-xl shadow-sm z-10">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                onClick={() => setZoom(z => Math.min(z + 0.15, 2.5))}
-                title="Zoom In"
-              >
-                <ZoomIn className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                onClick={() => setZoom(z => Math.max(z - 0.15, 0.5))}
-                title="Zoom Out"
-              >
-                <ZoomOut className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                onClick={handleReset}
-                title="Reset Zoom & Drag"
-              >
-                <RotateCcw className="h-4 w-4" />
-              </Button>
+              {/* Floating Zoom Controls */}
+              <div className="absolute bottom-2 right-2 flex flex-col gap-1 bg-card/85 backdrop-blur border border-border p-1.5 rounded-xl shadow-sm z-10">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                  onClick={() => setZoom(z => Math.min(z + 0.15, 2.5))}
+                  title="Zoom In"
+                >
+                  <ZoomIn className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                  onClick={() => setZoom(z => Math.max(z - 0.15, 0.5))}
+                  title="Zoom Out"
+                >
+                  <ZoomOut className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                  onClick={handleReset}
+                  title="Reset Zoom & Drag"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
