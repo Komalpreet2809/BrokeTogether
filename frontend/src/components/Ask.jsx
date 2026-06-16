@@ -135,7 +135,7 @@ export default function Ask({ groupId, onClose }) {
   const activeFacts = activeMsg?.facts;
 
   return (
-    <div className="flex flex-col justify-between glow-card overflow-hidden h-[480px] w-full border border-border/60 shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.6)] bg-neutral-200/95 dark:bg-neutral-800/95 backdrop-blur-md p-0 gap-0 rounded-2xl text-card-foreground">
+    <div className="flex flex-col justify-between glow-card overflow-hidden h-[480px] w-full border border-border shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.55)] p-0 gap-0 rounded-2xl text-card-foreground">
       <CardHeader className="pt-5 pb-3 px-5 border-b border-border flex flex-row items-center justify-between space-y-0 shrink-0 rounded-t-2xl">
         <div className="flex items-center gap-2">
           <div className="p-2 bg-primary/10 rounded-lg text-foreground">

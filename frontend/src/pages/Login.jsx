@@ -33,8 +33,8 @@ export default function Login() {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center p-5 bg-[radial-gradient(900px_500px_at_50%_-10%,rgba(255,255,255,0.05),transparent_70%)]">
-      <Card className="w-full max-w-sm">
+    <div className="grid min-h-screen place-items-center p-5">
+      <Card className="w-full max-w-sm glow-card">
         <CardHeader>
           <div className="text-2xl font-extrabold tracking-tight flex items-center gap-2">
             <img src="/favicon.png" alt="BrokeTogether Logo" className="h-7 w-7 rounded-md" />

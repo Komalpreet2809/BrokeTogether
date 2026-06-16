@@ -111,8 +111,8 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen transition-colors duration-200">
-      <header className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-background/80 px-5 py-3 backdrop-blur">
+    <div className="min-h-screen transition-colors duration-200 pt-3">
+      <header className="sticky top-3 z-30 mx-4 max-w-5xl xl:mx-auto flex items-center justify-between border border-border bg-card/65 px-5 py-2.5 backdrop-blur-md rounded-2xl shadow-sm transition-all duration-300">
         <div className="text-lg font-extrabold tracking-tight flex items-center gap-2">
           <img src="/favicon.png" alt="BrokeTogether Logo" className="h-6 w-6 rounded-md" />
           <span>Broke<span className="text-muted-foreground">Together</span></span>
@@ -234,7 +234,7 @@ export default function Dashboard() {
 
             {/* Flying Dock at the bottom center of the screen */}
             <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
-              <div className="flex items-center gap-2.5 bg-neutral-200/95 dark:bg-neutral-800/95 backdrop-blur-md border border-border/60 p-2.5 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.3)]">
+              <div className="flex items-center gap-2.5 bg-card/65 backdrop-blur-lg border border-border p-2 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.15)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
                 {TABS.map(({ label, icon: Icon }) => {
                   const isActive = tab === label;
                   return (

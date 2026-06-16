@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.85rem;
+  --radius: 1rem;
   --background: oklch(0.95 0 0);
   --foreground: oklch(0.15 0 0);
   --card: oklch(1 0 0);
@@ -116,24 +116,57 @@
   }
   body {
     background-color: var(--background);
-    background-image: linear-gradient(135deg, oklch(1 0 0) 0%, oklch(0.82 0 0) 100%);
+    background-image: 
+      radial-gradient(at 0% 0%, oklch(0.78 0.16 330 / 0.12) 0px, transparent 55%),
+      radial-gradient(at 100% 0%, oklch(0.65 0.18 200 / 0.12) 0px, transparent 55%),
+      radial-gradient(at 100% 100%, oklch(0.72 0.16 140 / 0.1) 0px, transparent 55%),
+      radial-gradient(at 0% 100%, oklch(0.68 0.16 40 / 0.1) 0px, transparent 55%),
+      linear-gradient(135deg, oklch(0.97 0.01 240) 0%, oklch(0.92 0.01 240) 100%);
     background-attachment: fixed;
     color: var(--foreground);
     font-feature-settings: "cv11", "ss01";
   }
   .dark body {
-    background-image: linear-gradient(135deg, oklch(0.24 0 0) 0%, oklch(0.03 0 0) 100%);
+    background-image: 
+      radial-gradient(at 0% 0%, oklch(0.25 0.15 330 / 0.22) 0px, transparent 60%),
+      radial-gradient(at 100% 0%, oklch(0.2 0.15 200 / 0.22) 0px, transparent 60%),
+      radial-gradient(at 100% 100%, oklch(0.22 0.12 140 / 0.18) 0px, transparent 60%),
+      radial-gradient(at 0% 100%, oklch(0.2 0.12 40 / 0.18) 0px, transparent 60%),
+      linear-gradient(135deg, oklch(0.08 0.01 240) 0%, oklch(0.03 0.01 240) 100%);
     background-attachment: fixed;
   }
 }
 
 /* Custom visual polish */
-.glow-card {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-  backdrop-filter: blur(5px);
+[data-slot="card"], [data-slot="dialog-content"], [data-slot="dropdown-menu-content"], .glow-card {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius-xl);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.25s ease;
 }
-.dark .glow-card {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+.dark [data-slot="card"], .dark [data-slot="dialog-content"], .dark [data-slot="dropdown-menu-content"], .dark .glow-card {
+  background: rgba(20, 20, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+}
+[data-slot="card"]:hover, [data-slot="dialog-content"]:hover, [data-slot="dropdown-menu-content"]:hover, .glow-card:hover {
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+.dark [data-slot="card"]:hover, .dark [data-slot="dialog-content"]:hover, .dark [data-slot="dropdown-menu-content"]:hover, .dark .glow-card:hover {
+  background: rgba(25, 25, 25, 0.7);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.42),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.07);
 }
 
 /* Animated dotted line for settlement flows */
