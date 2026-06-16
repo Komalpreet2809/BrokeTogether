@@ -469,40 +469,9 @@ export default function Balances({ groupId, group }) {
                 </g>
               </svg>
   
-              {/* Floating Zoom Controls (Vertically on Right Wall Top) */}
-              <div className="absolute top-2 right-2 flex flex-col gap-1 z-10">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                  onClick={() => setZoom(z => Math.min(z + 0.15, 2.5))}
-                  title="Zoom In"
-                >
-                  <ZoomIn className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                  onClick={() => setZoom(z => Math.max(z - 0.15, 0.5))}
-                  title="Zoom Out"
-                >
-                  <ZoomOut className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
-                  onClick={handleReset}
-                  title="Reset Zoom"
-                >
-                  <RotateCcw className="h-4 w-4" />
-                </Button>
-              </div>
-
-              {/* Floating Selection Details (on Left Wall Top) */}
+              {/* Floating Selection Details (on Top-Right of Map) */}
               {selectedNode !== null && (
-                <div className="absolute top-2 left-2 flex items-center gap-2 bg-card/90 backdrop-blur border border-border px-3 py-1.5 rounded-xl shadow-md z-10 animate-fadeIn">
+                <div className="absolute top-2 right-2 flex items-center gap-2 bg-card/90 backdrop-blur border border-border px-3 py-1.5 rounded-xl shadow-md z-10 animate-fadeIn">
                   <span className="text-xs font-extrabold text-foreground pl-1">
                     {group.members.find(m => m.id === selectedNode)?.name}
                   </span>
@@ -525,6 +494,37 @@ export default function Balances({ groupId, group }) {
                   </button>
                 </div>
               )}
+            </div>
+
+            {/* Floating Zoom Controls (Vertically on Card Right Wall Top) */}
+            <div className="absolute top-4 right-4 flex flex-col gap-1 z-10">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                onClick={() => setZoom(z => Math.min(z + 0.15, 2.5))}
+                title="Zoom In"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                onClick={() => setZoom(z => Math.max(z - 0.15, 0.5))}
+                title="Zoom Out"
+              >
+                <ZoomOut className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer rounded-lg hover:bg-muted"
+                onClick={handleReset}
+                title="Reset Zoom"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </Button>
             </div>
           </CardContent>
         </Card>
