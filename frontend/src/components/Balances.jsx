@@ -496,8 +496,8 @@ export default function Balances({ groupId, group }) {
               )}
             </div>
 
-            {/* Floating Zoom Controls (Vertically on Card Right Wall Top) */}
-            <div className="absolute top-4 right-4 flex flex-col gap-1 z-10">
+            {/* Floating Zoom Controls (Vertically on Card Right Wall Bottom) */}
+            <div className="absolute bottom-4 right-4 flex flex-col gap-1 z-10">
               <Button
                 variant="ghost"
                 size="icon"
