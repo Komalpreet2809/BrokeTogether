@@ -1,13 +1,13 @@
-# 💸 BrokeTogether — Shared Expenses Engine
+# BrokeTogether — Shared Expenses Engine
 
 [![Vercel Deployment](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel&logoColor=white)](https://broketogether.komalpreet.me)
 [![Render Deployment](https://img.shields.io/badge/Backend-Render-darkblue?logo=render&logoColor=white)](https://spreetail-expenses-api.onrender.com)
 [![Python Version](https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![React Version](https://img.shields.io/badge/React-19.0-blue?logo=react&logoColor=white)](https://react.dev/)
 
-BrokeTogether is a production-grade, collaborative group expense tracker and debt settlement engine built for the **Spreetail Software Engineering Intern** assignment. 
+BrokeTogether is a production-grade, collaborative group expense tracker and debt settlement engine built for the Spreetail Software Engineering Intern assignment. 
 
-Rather than a simple CRUD application, this system is engineered around **handling real-world financial irregularity**: validating a deliberately messy CSV log, managing time-bounded group memberships, and providing a deterministic RAG (Retrieval-Augmented Generation) copilot that is mathematically airtight.
+Rather than a simple CRUD application, this system is engineered around handling real-world financial irregularity: validating a deliberately messy CSV log, managing time-bounded group memberships, and providing a deterministic RAG (Retrieval-Augmented Generation) copilot that is mathematically airtight.
 
 * **Live Web App:** [https://broketogether.komalpreet.me](https://broketogether.komalpreet.me)
 * **API Endpoint:** [https://spreetail-expenses-api.onrender.com](https://spreetail-expenses-api.onrender.com)
@@ -15,11 +15,11 @@ Rather than a simple CRUD application, this system is engineered around **handli
 
 ---
 
-## ⚡ Engineering Challenges Solved
+## Engineering Challenges Solved
 
 ### 1. Two-Phase "Stage-Commit" CSV Import
 Ingesting user-supplied financial files is notoriously error-prone. BrokeTogether implements a secure import pipeline:
-* **Phase 1: Stage & Analyze:** The backend scans the uploaded file against **20+ anomaly detectors** (e.g. negative amounts, decimal rounding mismatches, case discrepancies, date formatting errors, and missing payers).
+* **Phase 1: Stage & Analyze:** The backend scans the uploaded file against 20+ anomaly detectors (e.g. negative amounts, decimal rounding mismatches, case discrepancies, date formatting errors, and missing payers).
 * **Interactive Conflict Resolution UI:** When anomalies are found, the app halts the import. Instead of crashing or guessing, it serves a grid highlighting issues. The user can manually edit, ignore, or override cells directly in their browser.
 * **Phase 2: Commit:** Transactions are materialized into the database only after the user resolves and approves all conflicts.
 
@@ -30,13 +30,13 @@ Flatmates move in and out. Standard Splitwise-like apps apply expenses to all gr
 * Powered by a responsive, interactive SVG settlement map detailing transactions with zoom, pan, and dragging controls.
 
 ### 3. Airtight AI Copilot ("Brokie")
-Includes a conversational AI panel to answer questions like *"Who owes Aisha money?"* or *"What did we spend on groceries?"*.
+Includes a conversational AI panel to answer questions like "Who owes Aisha money?" or "What did we spend on groceries?".
 * **The Rule:** The LLM never does math.
 * **The Solution:** We compute all balances and category statistics deterministically in Python first, then inject these exact facts as JSON context into the Groq Llama 3.3 model context window. This guarantees 100% accurate financial answers while maintaining a friendly, conversational helper.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Component | Technology | Description |
 | :--- | :--- | :--- |
@@ -48,7 +48,7 @@ Includes a conversational AI panel to answer questions like *"Who owes Aisha mon
 
 ---
 
-## 📐 Architecture & Data Flow
+## Architecture & Data Flow
 
 ```mermaid
 graph TD
@@ -89,7 +89,7 @@ erDiagram
 
 ---
 
-## 📂 Deliverables & Walkthrough Map
+## Deliverables & Walkthrough Map
 
 For the live technical review, these files detail specific logic implementation:
 
@@ -107,7 +107,7 @@ For the live technical review, these files detail specific logic implementation:
 
 ---
 
-## 💻 Local Setup & Execution
+## Local Setup & Execution
 
 ### 1. Run the Backend API
 ```bash
@@ -136,6 +136,6 @@ npm run dev                       # Runs at http://localhost:5173
 
 ---
 
-## 🚀 Production Deployment
+## Production Deployment
 * **Backend (Render):** Automatically deploys via the blueprint configuration in [render.yaml](./render.yaml). Provisions a managed PostgreSQL instance and runs the idempotent `bootstrap_demo` command on start.
 * **Frontend (Vercel):** Deploys React client from the `frontend/` directory. CORS policy configured to allow production domains (`*.vercel.app` and `*.komalpreet.me`).
