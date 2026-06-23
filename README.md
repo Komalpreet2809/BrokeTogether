@@ -55,18 +55,18 @@ graph TD
     classDef default fill:#ffffff,stroke:#bbb,stroke-width:1px,color:#111;
     classDef highlight fill:#f0f0f0,stroke:#333,stroke-width:2px,color:#111;
 
-    A[React Client SPA <br> Vercel Custom Domain] -- HTTP/JSON /api --> B[Django REST API <br> Render Web Service]
-    B --> C[(PostgreSQL Database <br> Render Managed)]
+    A["React Client SPA <br/> Vercel Custom Domain"] -- "HTTP/JSON /api" --> B["Django REST API <br/> Render Web Service"]
+    B --> C[("PostgreSQL Database <br/> Render Managed")]
     
     subgraph Django Core Modules
-        B --> D[importer: CSV Ingestion & Staging]
-        B --> E[expenses: Splits & Balances]
-        B --> F[groups: Time-bound Members]
-        B --> G[aiquery: Conversational Assistant]
+        B --> D["importer: CSV Ingestion & Staging"]
+        B --> E["expenses: Splits & Balances"]
+        B --> F["groups: Time-bound Members"]
+        B --> G["aiquery: Conversational Assistant"]
     end
     
-    G -- Context & Query --> H[Groq Llama 3.3 API]
-    H -- Natural Phrasing --> G
+    G -- "Context & Query" --> H["Groq Llama 3.3 API"]
+    H -- "Natural Phrasing" --> G
 ```
 
 ### Database Schema (ERD)
