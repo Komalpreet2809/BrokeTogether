@@ -1,57 +1,54 @@
-# BrokeTogether — Shared Expenses App
+# 💸 BrokeTogether — Shared Expenses Engine
 
-A Splitwise-style shared-expenses app for a flatmate group, built for the
-Spreetail Software Engineering Intern assignment. The hard part — and the focus
-of this project — is **ingesting a deliberately messy CSV**: detecting every data
-problem, surfacing it, and handling it deliberately instead of silently.
+[![Vercel Deployment](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel&logoColor=white)](https://broketogether.komalpreet.me)
+[![Render Deployment](https://img.shields.io/badge/Backend-Render-darkblue?logo=render&logoColor=white)](https://spreetail-expenses-api.onrender.com)
+[![Python Version](https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![React Version](https://img.shields.io/badge/React-19.0-blue?logo=react&logoColor=white)](https://react.dev/)
 
-- **Live app:** https://broketogether.komalpreet.me
-- **Fallback URL:** https://spreetail-shared-expenses-omega.vercel.app
-- **API:** https://spreetail-expenses-api.onrender.com
-- **Demo login:** `demo` / `BrokeTogether2026!`
+BrokeTogether is a production-grade, collaborative group expense tracker and debt settlement engine built for the **Spreetail Software Engineering Intern** assignment. 
 
-> Note: the API runs on Render's free tier and **cold-starts (~50s) after
-> inactivity** — the first request after a quiet period is slow, then it's fast.
+Rather than a simple CRUD application, this system is engineered around **handling real-world financial irregularity**: validating a deliberately messy CSV log, managing time-bounded group memberships, and providing a deterministic RAG (Retrieval-Augmented Generation) copilot that is mathematically airtight.
 
-> Built with an AI pair-programmer (Claude / Claude Code) directing it as the
-> engineer of record. See [AI_USAGE.md](./AI_USAGE.md), including four concrete
-> cases where the AI was wrong and how they were caught.
+* **Live Web App:** [https://broketogether.komalpreet.me](https://broketogether.komalpreet.me)
+* **API Endpoint:** [https://spreetail-expenses-api.onrender.com](https://spreetail-expenses-api.onrender.com)
+* **Demo Credentials:** Username: `demo` | Password: `BrokeTogether2026!`
 
-## What it does
+---
 
-- **Login** (JWT auth with secure, warning-free credentials).
-- **Groups** with **time-bounded membership** — members join and leave, and an
-  expense only affects who was a member on its date.
-- **Group Creation Modal**: Replaced unstyled browser `prompt()` popups with a beautiful, custom Radix `<Dialog>` modal.
-- **Expenses** in four split types: equal, unequal (exact amounts), percentage,
-  and share (ratio).
-- **Balances**: net balance per person, a minimal **settle-up** plan ("who pays
-  whom"), and a **drill-down** showing exactly which expenses make up a number.
-- **Direct Settlements**: Record settlements directly on the Overview page with a "Settle" trigger and an interactive "Recent Settlements" logger.
-- **CSV import** with full anomaly detection, a **review/approve** workflow, and
-  a generated **import report**.
-- **Brokie AI (Floating Assistant)**: A global, compact floating AI copilot widget designed with rounded corners, custom light/dark grey mode settings, and reduced typography.
-- **Conversational RAG Upgrades**: Brokie has access to the 15 most recent expenses and category spending summaries, allowing users to ask questions like *"Who paid for the last flight?"* or *"What did we spend on food?"*.
+## ⚡ Engineering Challenges Solved
 
-## Documents (assignment deliverables)
+### 1. Two-Phase "Stage-Commit" CSV Import
+Ingesting user-supplied financial files is notoriously error-prone. BrokeTogether implements a secure import pipeline:
+* **Phase 1: Stage & Analyze:** The backend scans the uploaded file against **20+ anomaly detectors** (e.g. negative amounts, decimal rounding mismatches, case discrepancies, date formatting errors, and missing payers).
+* **Interactive Conflict Resolution UI:** When anomalies are found, the app halts the import. Instead of crashing or guessing, it serves a grid highlighting issues. The user can manually edit, ignore, or override cells directly in their browser.
+* **Phase 2: Commit:** Transactions are materialized into the database only after the user resolves and approves all conflicts.
 
-| File | What |
-|------|------|
-| [SCOPE.md](./SCOPE.md) | Every CSV anomaly + how it's handled, and the DB schema |
-| [DECISIONS.md](./DECISIONS.md) | Decision log: options considered and why |
-| [IMPORT_REPORT.md](./IMPORT_REPORT.md) | Machine-generated import report (24 anomalies) |
-| [AI_USAGE.md](./AI_USAGE.md) | AI tools, key prompts, and 4 things the AI got wrong |
-| [walkthrough.md](./walkthrough.md) | Detailed documentation of UI layouts, responsive floating widgets, and AI features |
+### 2. Time-Bounded Membership Calculations
+Flatmates move in and out. Standard Splitwise-like apps apply expenses to all group members, introducing errors for members inactive during the transaction month.
+* Built flexible `joined_on` and `left_on` boundaries directly into group memberships.
+* The split engine dynamically filters out inactive members on the transaction date (e.g. Sam, who moved in mid-April, is automatically exempted from March electricity splits).
+* Powered by a responsive, interactive SVG settlement map detailing transactions with zoom, pan, and dragging controls.
 
-## Tech stack
+### 3. Airtight AI Copilot ("Brokie")
+Includes a conversational AI panel to answer questions like *"Who owes Aisha money?"* or *"What did we spend on groceries?"*.
+* **The Rule:** The LLM never does math.
+* **The Solution:** We compute all balances and category statistics deterministically in Python first, then inject these exact facts as JSON context into the Groq Llama 3.3 model context window. This guarantees 100% accurate financial answers while maintaining a friendly, conversational helper.
 
-- **Backend:** Python 3.13, Django 5 + Django REST Framework, SimpleJWT.
-- **Database:** PostgreSQL in production, SQLite locally (`dj-database-url`).
-- **Frontend:** React 19 + Vite, React Router, Axios, Radix UI.
-- **AI:** Groq `llama-3.3-70b-versatile` (free tier) for the NL query only.
-- **Deploy:** Render (API + Postgres) + Vercel (React) with custom domain support.
+---
 
-## Architecture & Data Flow
+## 🛠️ Technology Stack
+
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Backend** | **Python 3.13 / Django 5** | Django REST Framework for API endpoints, SimpleJWT for token authentication. |
+| **Frontend** | **React 19 / Vite** | Client-side routing, Axios, Tailwind CSS, Radix UI primitives. |
+| **Database** | **PostgreSQL (Prod) / SQLite (Local)** | Relational database schema with strict constraints and foreign keys. |
+| **AI Engine** | **Groq API / Llama 3.3** | Handles natural-language querying via pre-computed JSON facts. |
+| **Hosting** | **Render (Backend) / Vercel (Frontend)** | Zero-downtime static hosting paired with managed database instances. |
+
+---
+
+## 📐 Architecture & Data Flow
 
 ```mermaid
 graph TD
@@ -72,24 +69,7 @@ graph TD
     H -- Natural Phrasing --> G
 ```
 
-## Two-Phase CSV Import Lifecycle
-
-```mermaid
-flowchart TD
-    A[Upload CSV File] --> B[Phase 1: STAGE]
-    B --> C[Field Ingestion & Sanitization]
-    C --> D[Run 20+ Anomaly Detectors]
-    D --> E[Create ImportBatch & StagedRows]
-    E --> F{Audit Staged Rows}
-    F -- Modified / Dropped / Swapped --> G[Hold for Human Review]
-    F -- Clean Rows --> H[Auto-Approve]
-    G --> I[Recruiter / Admin Decision]
-    I -- Approve / Ignore / Override --> J[Phase 2: COMMIT]
-    H --> J
-    J --> K[Materialize into real Expense / Split / Settlement DB rows]
-```
-
-## Database Schema (ERD)
+### Database Schema (ERD)
 
 ```mermaid
 erDiagram
@@ -107,66 +87,55 @@ erDiagram
     StagedRow ||--o{ Anomaly : "triggers"
 ```
 
-## Run locally
+---
 
-### Backend
+## 📂 Deliverables & Walkthrough Map
+
+For the live technical review, these files detail specific logic implementation:
+
+| File | Type | Purpose / Code Reference |
+| :--- | :--- | :--- |
+| **[SCOPE.md](./SCOPE.md)** | Document | Details all 20+ CSV anomalies, matching resolution policies, and the database schema. |
+| **[DECISIONS.md](./DECISIONS.md)** | Document | Architectural decision log (greedy settle-up, simple JWT, currency models, and design trade-offs). |
+| **[AI_USAGE.md](./AI_USAGE.md)** | Document | Details AI pair-programming assistant usage, key prompts, and 4 bugs caught and resolved. |
+| **[walkthrough.md](./walkthrough.md)** | Document | UI layouts, responsive floating widgets, and SVG design documentation. |
+| **[money.py](./backend/expenses/money.py)** | Code | Fixed-point integer calculations preventing floats rounding errors. |
+| **[splitting.py](./backend/expenses/splitting.py)** | Code | Mathematical rules for equal, unequal, ratio, and percentage splitting. |
+| **[parsing.py](./backend/importer/parsing.py)** | Code | Core anomaly scanning and CSV parser rules. |
+| **[balances.py](./backend/expenses/balances.py)** | Code | Deterministic net balance aggregator and greedy simplify-debt engine. |
+| **[services.py](./backend/aiquery/services.py)** | Code | Facts building and Groq Llama context-injection services. |
+
+---
+
+## 💻 Local Setup & Execution
+
+### 1. Run the Backend API
 ```bash
 cd backend
 python -m venv .venv
-.venv\Scripts\activate            # Windows  (use: source .venv/bin/activate on macOS/Linux)
+.venv\Scripts\activate            # Windows
+# source .venv/bin/activate       # macOS / Linux
+
 pip install -r requirements.txt
-copy .env.example .env            # then add your GROQ_API_KEY (optional)
+copy .env.example .env            # Add your optional GROQ_API_KEY for the chatbot
 python manage.py migrate
-python manage.py bootstrap_demo   # seeds the group + imports the CSV once
-python manage.py runserver        # http://127.0.0.1:8000
+python manage.py bootstrap_demo   # Automatically seeds Flat 4B and imports the CSV once
+python manage.py runserver        # Runs at http://127.0.0.1:8000
 ```
 
-Useful commands:
-```bash
-python manage.py test             # run the test suite (13 tests)
-python manage.py import_csv       # stage the CSV and (re)generate IMPORT_REPORT.md
-python manage.py import_csv --commit
-```
+* **Run Backend Unit Tests:** `python manage.py test` (13 tests verifying split logic and dates).
+* **CLI CSV Import Utility:** `python manage.py import_csv --commit` (stages/commits CSV from console).
 
-### Frontend
+### 2. Run the Frontend Client
 ```bash
 cd frontend
 npm install
-# .env already points at http://127.0.0.1:8000/api for local dev
-npm run dev                       # http://localhost:5173
+npm run dev                       # Runs at http://localhost:5173
 ```
+*Login using the demo user credentials: `demo` / `BrokeTogether2026!`.*
 
-Log in with `demo` / `BrokeTogether2026!`.
+---
 
-## Deploy
-
-**Backend (Render):** New → Blueprint → connect this repo. `render.yaml`
-provisions the web service + free Postgres, runs migrations and the idempotent
-`bootstrap_demo` (which unconditionally syncs the demo user credentials). After it provisions, set the `GROQ_API_KEY` env var.
-
-**Frontend (Vercel):** New Project → import this repo → **Root Directory =
-`frontend`** (Vite auto-detected). Add env var `VITE_API_URL =
-https://<your-render-host>/api`. Deploy.
-
-CORS already allows `*.vercel.app` as well as the custom domains `broketogther.komalpreet.me` and `broketogether.komalpreet.me`.
-
-## API overview
-
-```
-POST /api/auth/register | login | refresh        GET /api/auth/me
-GET/POST/DELETE /api/groups/ | /members/ | /expenses/ | /settlements/
-GET  /api/groups/<id>/balances
-GET  /api/groups/<id>/members/<mid>/breakdown
-POST /api/imports/upload   GET /api/imports/<id>   POST /api/imports/<id>/commit
-POST /api/imports/<id>/rows/<rid>/decision
-POST /api/groups/<id>/ask
-```
-
-## Where to look (for the live walkthrough)
-
-- Money & rounding: [`backend/expenses/money.py`](./backend/expenses/money.py)
-- Split math: [`backend/expenses/splitting.py`](./backend/expenses/splitting.py)
-- Anomaly detection: [`backend/importer/parsing.py`](./backend/importer/parsing.py)
-  + [`backend/importer/services.py`](./backend/importer/services.py)
-- Balance calculation: [`backend/expenses/balances.py`](./backend/expenses/balances.py)
-- AI (phrasing & context expansion): [`backend/aiquery/services.py`](./backend/aiquery/services.py)
+## 🚀 Production Deployment
+* **Backend (Render):** Automatically deploys via the blueprint configuration in [render.yaml](./render.yaml). Provisions a managed PostgreSQL instance and runs the idempotent `bootstrap_demo` command on start.
+* **Frontend (Vercel):** Deploys React client from the `frontend/` directory. CORS policy configured to allow production domains (`*.vercel.app` and `*.komalpreet.me`).
